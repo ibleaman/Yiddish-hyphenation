@@ -78,8 +78,8 @@ def replace_consonant_j_syllabic_nl(string):
     string = re.sub('יאָ', 'jאָ', string)
     string = re.sub('יו', 'jו', string)
     string = re.sub('יע', 'jע', string)
-    string = re.sub('ייִ', 'jיִ', string)
-    string = re.sub('יײַ', 'jײַ', string)
+    string = re.sub('ייִ', 'jיִ', string)
+    string = re.sub('יײַ', 'jײַ', string)
     string = re.sub('יײ', 'jײ', string)
     string = re.sub('יױ', 'jױ', string)
 
