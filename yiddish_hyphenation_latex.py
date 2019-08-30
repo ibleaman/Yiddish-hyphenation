@@ -37,6 +37,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Script to add hyphenation to a Yiddish word list.')
     parser.add_argument('-i', '--input', help='Path to a Yiddish text document', required=True)
     parser.add_argument('-o', '--output', help='Path to a TeX file that will be written, with one hyphenated word per line', required=True)
+    parser.add_argument('-s', '--system', choices=['jacobs', 'viler'], help='Syllabification system: "jacobs" follows Maximum Onset Principle using all the onsets from Jacobs (2005:115-7); "viler" follows syllabification of Yankev Viler, cited by Jacobs (2005:125)', required=True)
     args = parser.parse_args()
 
     text = readfile(args.input)
@@ -113,12 +114,10 @@ if __name__ == '__main__':
 
     # add hyphenation throughout
     hyphenated_words = []
+    yiddish = yiddish_syllable_boundaries.generate_yiddish_patterns(args.system)
     for word in words_prefixes_separated:
         word = yiddish_syllable_boundaries.combine_chars(word)
         word = yiddish_syllable_boundaries.replace_consonant_j_syllabic_nl(word)
-
-        yiddish = yiddish_syllable_boundaries.generate_yiddish_patterns()
-
         word = yiddish_syllable_boundaries.add_syllable_boundaries(yiddish, word)
         word = yiddish_syllable_boundaries.separate_chars(word)
         if '-' in word:
