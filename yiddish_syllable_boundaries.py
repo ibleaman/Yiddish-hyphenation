@@ -261,6 +261,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Script to add syllable boundaries to a Yiddish word list.')
     parser.add_argument('-i', '--input', help='Path to a text file with one word per line', required=True)
     parser.add_argument('-o', '--output', help='Path to a text file that will be written, with one syllabified word per line', required=True)
+    parser.add_argument('-s', '--system', choices=['jacobs', 'viler'], help='Syllabification system: "jacobs" follows Maximum Onset Principle using all the onsets from Jacobs (2005:115-7); "viler" follows syllabification of Yankev Viler, cited by Jacobs (2005:125)', required=True)
     args = parser.parse_args()
 
     wordlist = readfile(args.input)
