@@ -123,4 +123,18 @@ if __name__ == '__main__':
         if '-' in word:
             hyphenated_words.append(word)
 
-    writeTeXfile(args.output, hyphenated_words)
+    # revise the hyphenated word list in case there is:
+    #   1) just a single letter (or letter + diacritic) before the first hyphen
+    #   2) just two or fewer letters (or letters + diacritics) after the final hyphen
+    #   3) if the word is unambiguously from loshn-koydesh (if it contains בֿחכּשׂתּת) then remove all hyphens
+    final_hyphenated_words = []
+    for word in hyphenated_words:
+        if len(yiddish_syllable_boundaries.combine_chars(word)[:yiddish_syllable_boundaries.combine_chars(word).index('-')]) < 2:
+            word = word[:word.index('-')] + word[word.index('-') + 1:]
+        if '-' in word: # because there may have been only one hyphen that just got deleted
+            if len(yiddish_syllable_boundaries.combine_chars(word)[yiddish_syllable_boundaries.combine_chars(word).rindex('-') + 1:]) < 3:
+                word = word[:word.rindex('-')] + word[word.rindex('-') + 1:]
+        if any(x in word for x in ('בֿ', 'ח', 'כּ', 'שׂ', 'תּ', 'ת')):
+            word = re.sub('-', '', word)
+        final_hyphenated_words.append(word)
+    writeTeXfile(args.output, final_hyphenated_words)
