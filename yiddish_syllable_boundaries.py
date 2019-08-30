@@ -98,7 +98,7 @@ def replace_consonant_j_syllabic_nl(string):
     return ' '.join(list(string))
 
 # generate the Yiddish patterns that will feed into syllabification algorithm
-def generate_yiddish_patterns():
+def generate_yiddish_patterns(system):
 
     ### STEP 1: create a a list of all possible syllable onsets (in Yiddish alphabet)
 
@@ -107,31 +107,31 @@ def generate_yiddish_patterns():
     # NOTE: non-final letters only
     # NOTE: 'Y' mapped to 'j'; important later on
     transliterations = {
-        'A': ['אַ'],
-        'Ay': ['ײַ'],
+        'A': ['אַ'],
+        'Ay': ['ײַ'],
         'B': ['ב'],
         'D': ['ד'],
         'E': ['ע'],
         'Ey': ['ײ'],
-        'F': ['פֿ'],
+        'F': ['פֿ'],
         'G': ['ג'],
         'H': ['ה'],
-        'I': ['י', 'יִ'],
-        'K': ['ק', 'כּ'],
+        'I': ['יִ', 'יִ'],
+        'K': ['ק', 'כּ'],
         'Kh': ['כ', 'ח'],
         'L': ['ל'],
         'M': ['מ'],
         'N': ['נ'],
-        'O': ['אָ'],
+        'O': ['אָ'],
         'Oy': ['ױ'],
-        'P': ['פּ'],
+        'P': ['פּ'],
         'R': ['ר'],
-        'S': ['ס', 'שׂ', 'ת'],
+        'S': ['ס', 'שׂ', 'ת'],
         'Sh': ['ש'],
-        'T': ['ט', 'תּ'],
+        'T': ['ט', 'תּ'],
         'Ts': ['צ'],
-        'U': ['ו', 'וּ'],
-        'V': ['װ', 'בֿ'],
+        'U': ['ו', 'וּ'],
+        'V': ['װ', 'בֿ'],
         'Y': ['j'],
         'Z': ['ז'],
         'Zh': ['ז ש']
@@ -189,16 +189,31 @@ def generate_yiddish_patterns():
         'ת'
     ]
 
-    # all allowable syllable onsets in Yiddish (to feed into Maximum Onset Principle)
-    # adapted from Jacobs (2005:115-7)
-    onsets = ['P T', 'P L', 'P R', 'P N', 'P S', 'P Sh', 'P Kh', 'P L', 'P K', 'T R', 'T M', 'B D', 'B L', 'B R', 'B G',
-                'D L', 'D N', 'T N', 'T L', 'T K', 'T V', 'T F', 'T Kh', 'D R', 'D V', 'K N', 'K T', 'K D', 'K L', 'K S',
-                'K R', 'K V', 'G N', 'G L', 'G R', 'G V', 'G Z', 'F L', 'F R', 'V L', 'V R', 'S M', 'S F', 'S V', 'S N',
-                'S T', 'S D', 'S K', 'S P', 'S Kh', 'S R', 'S L', 'Z M', 'Z N', 'Z G', 'Z R', 'Z L', 'Z B', 'Sh M', 'Sh V',
-                'Sh F', 'Sh N', 'Sh T', 'Sh P', 'Sh K', 'Sh Kh', 'Sh R', 'Sh L', 'Sh T Sh', 'Zh M', 'Zh L', 'Kh M', 'Kh V', 'Kh Sh', 'Kh S',
-                'Kh L', 'Kh K', 'Kh Ts', 'Kh N', 'Kh R', 'Ts L', 'Ts N', 'Ts D', 'Ts V', 'T Sh V', 'M R', 'M L', 'Sh P R', 'Sh T R', 'Sh K R',
-                'Sh P L', 'Sh K L', 'S P R', 'S T R', 'S K R', 'S P L', 'S K L',
-                'T Sh', 'D Zh']
+    onsets = []
+    if system == 'jacobs':
+        # all allowable syllable onsets in Yiddish (to feed into Maximum Onset Principle)
+        # adapted from Jacobs (2005:115-7)
+        onsets = ['P T', 'P L', 'P R', 'P N', 'P S', 'P Sh', 'P Kh', 'P L', 'P K', 'T R', 'T M', 'B D', 'B L', 'B R', 'B G',
+                    'D L', 'D N', 'T N', 'T L', 'T K', 'T V', 'T F', 'T Kh', 'D R', 'D V', 'K N', 'K T', 'K D', 'K L', 'K S',
+                    'K R', 'K V', 'G N', 'G L', 'G R', 'G V', 'G Z', 'F L', 'F R', 'V L', 'V R', 'S M', 'S F', 'S V', 'S N',
+                    'S T', 'S D', 'S K', 'S P', 'S Kh', 'S R', 'S L', 'Z M', 'Z N', 'Z G', 'Z R', 'Z L', 'Z B', 'Sh M', 'Sh V',
+                    'Sh F', 'Sh N', 'Sh T', 'Sh P', 'Sh K', 'Sh Kh', 'Sh R', 'Sh L', 'Sh T Sh', 'Zh M', 'Zh L', 'Kh M', 'Kh V', 'Kh Sh', 'Kh S',
+                    'Kh L', 'Kh K', 'Kh Ts', 'Kh N', 'Kh R', 'Ts L', 'Ts N', 'Ts D', 'Ts V', 'T Sh V', 'M R', 'M L', 'Sh P R', 'Sh T R', 'Sh K R',
+                    'Sh P L', 'Sh K L', 'S P R', 'S T R', 'S K R', 'S P L', 'S K L',
+                    'T Sh', 'D Zh']
+
+    elif system == 'viler':
+        # onsets according to the syllabification rule of Yankev Viler, cited by Jacobs (2005:125)
+        # but with additional infrequent onsets removed (like 'P N')
+        onsets = ['P L', 'P R', 'T L', 'T R',
+                    'B L', 'B R', 'D R', 'K L', 'K N',
+                    'K R', 'G L', 'G R', 'F L', 'F R',
+                    'S M', 'S N', 'S T', 'S K', 'S P',
+                    'S L', 'Sh M', 'Sh N', 'Sh T', 'Sh P', 'Sh K',
+                    'Sh R', 'Sh L', 'Sh P R', 'Sh T R',
+                    'Sh K R', 'Sh P L', 'Sh K L', 'S P R',
+                    'S T R', 'S K R', 'S P L', 'S K L',
+                    'T Sh', 'D Zh']
 
     # convert/expand 'S T' into all possibilities: ס ט, ס תּ, שׂ תּ, etc. for all other onsets
     all_onsets = []
@@ -266,13 +281,12 @@ if __name__ == '__main__':
 
     wordlist = readfile(args.input)
 
+    yiddish = generate_yiddish_patterns(args.system)
+
     syllabified_wordlist = []
     for word in wordlist:
         word = combine_chars(word)
         word = replace_consonant_j_syllabic_nl(word)
-
-        yiddish = generate_yiddish_patterns()
-
         word = add_syllable_boundaries(yiddish, word)
         word = separate_chars(word)
         syllabified_wordlist.append(word)
