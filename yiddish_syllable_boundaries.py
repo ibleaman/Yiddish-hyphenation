@@ -1,15 +1,17 @@
 # Script to find and add Yiddish syllable boundaries
 # Author: Isaac L. Bleaman <bleaman@berkeley.edu>
-# Date: 2019-08-19
+# Date: 2019-09-04
 
 # How to run script:
-# python yiddish_syllable_boundaries.py -i WORD_LIST.txt -o WORD_LIST_SYLLABIFIED.txt
+# python yiddish_syllable_boundaries.py -i WORD_LIST.txt -o WORD_LIST_SYLLABIFIED.txt -s jacobs
 
 # sample input (new-line separated): אױסגעמוטשעט אַרױסגעלאָפֿן אָװנטברױט
 # sample output: אױס-גע-מו-טשעט אַ-רױס-גע-לאָ-פֿן אָ-װנט-ברױט
 
-# Note: This script will also standardize Yiddish unicode representations
-# to avoid using precombined characters (except װ, ױ, ײ)
+# Note: This script will also standardize Yiddish Unicode representations
+# to avoid using precombined characters (except װ, ױ, ײ).
+
+# See further documentation in the README.
 
 import argparse
 import re

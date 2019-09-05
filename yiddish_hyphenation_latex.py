@@ -1,9 +1,9 @@
 # Script to generate LaTeX hyphenation file for Yiddish
 # Author: Isaac L. Bleaman <bleaman@berkeley.edu>
-# Date: 2019-08-19
+# Date: 2019-09-04
 
 # How to run script:
-# python yiddish_hyphenation_latex.py -i YIDDISH_DOCUMENT.tex -o LATEX_HYPHENATION.tex
+# python yiddish_hyphenation_latex.py -i YIDDISH_DOCUMENT.tex -o LATEX_HYPHENATION.tex -s viler
 
 # The script accepts a Yiddish text file as input, and outputs
 # a file of hyphenated words that can be then \input{} directly into a
@@ -14,8 +14,10 @@
 # e.g.: זיך אָנעסן is "on-e-sn" ("on" is a prefix/particle) not: o-ne-sn (per normal syllabification)
 
 # Note: This will only be useful in LaTeX if your original Yiddish text file
-# is written with the YIVO orthography, using non-precombined characters (except
-# for three: װ, ײ, ױ)
+# is written with the YIVO orthography, using non-precombined Unicode characters (except
+# for three: װ, ײ, ױ).
+
+# See further documentation in the README.
 
 import argparse
 import re
